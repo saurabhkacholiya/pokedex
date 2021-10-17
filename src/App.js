@@ -3,7 +3,8 @@ import axios from "axios";
 import "./App.css";
 import searchIcon from "./assets/search.svg";
 
-function PokemonCard({ name, url }) {
+function PokemonCard({ name, url, captured, onclick }) {
+  console.log("name and captured", name, captured);
   const [pokeImg, setPokeImage] = useState([]);
 
   useEffect(() => {
@@ -21,10 +22,18 @@ function PokemonCard({ name, url }) {
   }, [url]);
 
   return (
-    <div key={name} className="pokemon_card">
+    <div
+      key={name}
+      className="pokemon_card"
+      style={{ backgroundColor: captured ? "#eee" : "#fff" }}
+    >
       <img alt={name} src={pokeImg} />
       <div>{name}</div>
-      <button className="captured_button">captured?</button>
+      {!captured && (
+        <button onClick={onclick} className="captured_button">
+          captured?
+        </button>
+      )}
     </div>
   );
 }
@@ -32,6 +41,8 @@ function PokemonCard({ name, url }) {
 function App() {
   const [pokemonData, setPokemonData] = useState([]);
   const [masterData, setMasterData] = useState([]);
+  const [capturedPokemonData, setCapturedPokemonData] = useState([]);
+  const [capturedPokemonObj, setCapturedPokemonObj] = useState({});
 
   useEffect(() => {
     axios
@@ -61,6 +72,19 @@ function App() {
     }
   }
 
+  function onClickOfCaptured(item, index) {
+    capturedPokemonData.push(item);
+    setCapturedPokemonData(capturedPokemonData); // pushing into array for filtered view
+
+    if (capturedPokemonObj[`${item.name}_${index}`]) {
+      capturedPokemonObj[`${item.name}_${index}`] = false;
+    } else {
+      capturedPokemonObj[`${item.name}_${index}`] = true;
+    }
+
+    setCapturedPokemonObj(capturedPokemonObj);
+  }
+
   return (
     <div>
       <div className="item-center">
@@ -75,8 +99,14 @@ function App() {
         </div>
       </div>
       <div className="main_container">
-        {pokemonData.map((item) => (
-          <PokemonCard name={item.name} url={item.url} />
+        {pokemonData.map((item, index) => (
+          <PokemonCard
+            key={`${item.name}_${index}`}
+            name={item.name}
+            url={item.url}
+            onclick={() => onClickOfCaptured(item, index)}
+            captured={capturedPokemonObj[`${item.name}_${index}`]}
+          />
         ))}
       </div>
     </div>
