@@ -1,38 +1,37 @@
-.App {
-  text-align: center;
-}
+/* pokemon card css start */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.pokemon_card {
+  height: 250px;
+  width: 250px;
+  margin: 10px;
+  border: 1px solid #eee;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+  transition: 0.3s;
+  border-radius: 10px;
 }
 
-.App-link {
-  color: #61dafb;
+.pokemon_card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* pokemon card css end */
+
+/* Search bar layout start */
+
+.input_search {
+  outline: none;
+  border: 0;
+  border-radius: 50px;
+  padding: 15px 20px;
+  width: 400px;
+  height: 40px;
+  border: 1px solid #eee;
+  margin: 20px 0px;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
 }
+
+/* Search bar layout end */
