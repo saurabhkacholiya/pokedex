@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./App.css";
 import searchIcon from "./assets/search.svg";
+import "./App.css";
 
 function PokemonCard({ name, url, captured, onclick }) {
   console.log("name and captured", name, captured);
@@ -73,16 +73,18 @@ function App() {
   }
 
   function onClickOfCaptured(item, index) {
-    capturedPokemonData.push(item);
-    setCapturedPokemonData(capturedPokemonData); // pushing into array for filtered view
+    const updatedCapturedPokemonData = [...capturedPokemonData];
+    updatedCapturedPokemonData.push(item);
+    setCapturedPokemonData(updatedCapturedPokemonData); // pushing into array for filtered view
 
-    if (capturedPokemonObj[`${item.name}_${index}`]) {
-      capturedPokemonObj[`${item.name}_${index}`] = false;
+    const updatedPokemonObj = { ...capturedPokemonObj };
+    if (updatedPokemonObj[`${item.name}_${index}`]) {
+      updatedPokemonObj[`${item.name}_${index}`] = false;
     } else {
-      capturedPokemonObj[`${item.name}_${index}`] = true;
+      updatedPokemonObj[`${item.name}_${index}`] = true;
     }
 
-    setCapturedPokemonObj(capturedPokemonObj);
+    setCapturedPokemonObj(updatedPokemonObj);
   }
 
   return (
