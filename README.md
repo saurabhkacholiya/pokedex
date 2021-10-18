@@ -10,14 +10,14 @@
 
 ## `Feature's`
 
-- list of all pokemon.
-- view partial of selected pokemon on click of view details.
+- List of all pokemon.
+- View partial of selected pokemon on click of view details.
 - Captured pokemon's from the list.
-- filter pokemon's from
+- Filter pokemon's from
   - All pokemon.
   - captured pokemon.
   - Not captured pokemon.
-- input search bar from the filtered or default pokemon list.
+- Input search bar from the filtered or default pokemon list.
 
 ## `Improvement`
 
@@ -25,14 +25,14 @@
 - TDD (automatic test cases)
 - Semantic HTML
 
-## `demo of homepage list.`
+## `Demo of homepage list.`
 
 <img src="./src/assets/ss_listing.png">
 
-## `demo View all details of single Modal.`
+## `Demo View all details of single Modal.`
 
 <img src="./src/assets/ss_modal.png">
 
-## `demo of captured pokemon with filtered view.`
+## `Demo of captured pokemon with filtered view.`
 
 <img src="./src/assets/ss_filter.png">
