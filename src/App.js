@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import searchIcon from "./assets/search.svg";
 import logoIcon from "./assets/logo.png";
+import Modal from "./Components/Modal";
 import "./App.css";
 
 function PokemonCard({ name, url, captured, onclick }) {
@@ -29,11 +30,18 @@ function PokemonCard({ name, url, captured, onclick }) {
     >
       <img alt={name} src={pokeImg} />
       <div>{name}</div>
-      {!captured && (
-        <button onClick={onclick} className="captured_button">
-          captured?
+      <div>
+        <>
+          {!captured && (
+            <button onClick={onclick} className="captured_button">
+              captured?
+            </button>
+          )}
+        </>
+        <button onClick={onclick} className="view_details_button">
+          View details
         </button>
-      )}
+      </div>
     </div>
   );
 }
@@ -44,6 +52,7 @@ function App() {
   const [capturedPokemonData, setCapturedPokemonData] = useState([]);
   const [capturedPokemonObj, setCapturedPokemonObj] = useState({});
   const [filteredValue, setFilteredValue] = useState("All");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     axios
@@ -120,7 +129,7 @@ function App() {
   }
 
   return (
-    <div>
+    <main>
       <nav className="nav_bar">
         <img src={logoIcon} className="logo_img" alt="pokeapi logo" />
       </nav>
@@ -159,7 +168,17 @@ function App() {
           />
         ))}
       </div>
-    </div>
+
+      <main>
+        <button type="button" onClick={() => setShowModal(true)}>
+          Open
+        </button>
+      </main>
+
+      <Modal show={showModal} handleClose={() => setShowModal(false)}>
+        <p>Modal</p>
+      </Modal>
+    </main>
   );
 }
 
