@@ -42,7 +42,7 @@ function PokemonCard({ name, url, captured, onclick, onClickViewMoreDetails }) {
         <>
           {!captured && (
             <button onClick={onclick} className="captured_button">
-              captured
+              capture
             </button>
           )}
         </>
@@ -250,7 +250,7 @@ function App() {
               }}
               className="captured_button"
             >
-              captured
+              capture
             </button>
             <button
               onClick={() => setShowModal(false)}
