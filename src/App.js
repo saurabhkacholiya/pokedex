@@ -4,7 +4,6 @@ import searchIcon from "./assets/search.svg";
 import "./App.css";
 
 function PokemonCard({ name, url, captured, onclick }) {
-  console.log("name and captured", name, captured);
   const [pokeImg, setPokeImage] = useState([]);
 
   useEffect(() => {
@@ -78,10 +77,10 @@ function App() {
     setCapturedPokemonData(updatedCapturedPokemonData); // pushing into array for filtered view
 
     const updatedPokemonObj = { ...capturedPokemonObj };
-    if (updatedPokemonObj[`${item.name}_${index}`]) {
-      updatedPokemonObj[`${item.name}_${index}`] = false;
+    if (updatedPokemonObj[`${item.name}`]) {
+      updatedPokemonObj[`${item.name}`] = false;
     } else {
-      updatedPokemonObj[`${item.name}_${index}`] = true;
+      updatedPokemonObj[`${item.name}`] = true;
     }
 
     setCapturedPokemonObj(updatedPokemonObj);
@@ -107,7 +106,7 @@ function App() {
             name={item.name}
             url={item.url}
             onclick={() => onClickOfCaptured(item, index)}
-            captured={capturedPokemonObj[`${item.name}_${index}`]}
+            captured={capturedPokemonObj[`${item.name}`]}
           />
         ))}
       </div>
