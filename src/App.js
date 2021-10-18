@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import searchIcon from "./assets/search.svg";
+import logoIcon from "./assets/logo.png";
 import "./App.css";
 
 function PokemonCard({ name, url, captured, onclick }) {
@@ -120,6 +121,9 @@ function App() {
 
   return (
     <div>
+      <nav className="nav_bar">
+        <img src={logoIcon} className="logo_img" alt="pokeapi logo" />
+      </nav>
       <div className="item-center">
         <div className="filter_section">
           <div className="input_search_div">

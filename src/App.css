@@ -112,3 +112,19 @@
   margin-bottom: 30px;
 }
 /* main container end */
+
+/* Nav bar start*/
+
+.nav_bar {
+  height: 50px;
+  width: 100%;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+  background-color: #4caf50;
+}
+.logo_img {
+  height: 50px;
+  width: 100px;
+  cursor: pointer;
+  margin-left: 30px;
+}
+/* Nav bar end */
