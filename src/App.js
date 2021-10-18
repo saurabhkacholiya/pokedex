@@ -26,7 +26,8 @@ function PokemonCard({ name, url, captured, onclick, onClickViewMoreDetails }) {
   }, [url]);
 
   function handleViewMoreDetails() {
-    onClickViewMoreDetails(currentPokemonData);
+    const item = { name, url };
+    onClickViewMoreDetails(currentPokemonData, item);
   }
 
   return (
@@ -53,8 +54,6 @@ function PokemonCard({ name, url, captured, onclick, onClickViewMoreDetails }) {
   );
 }
 
-// open
-
 function App() {
   const [pokemonData, setPokemonData] = useState([]);
   const [masterData, setMasterData] = useState([]);
@@ -63,6 +62,9 @@ function App() {
   const [filteredValue, setFilteredValue] = useState("All");
   const [showModal, setShowModal] = useState(false);
   const [selectedPokemonData, setSelectedPokemonData] = useState({});
+
+  const [pokemonDataForCapturingList, setSelectedPokemonDataForCapturingList] =
+    useState({});
 
   useEffect(() => {
     axios
@@ -138,8 +140,9 @@ function App() {
     setFilteredValue(filterSelectedValue);
   }
 
-  function onClickViewMoreDetails(data) {
+  function onClickViewMoreDetails(data, obj) {
     setSelectedPokemonData(data);
+    setSelectedPokemonDataForCapturingList(obj);
     setShowModal(true);
   }
 
@@ -240,7 +243,13 @@ function App() {
           </p>
 
           <div className="item-center">
-            <button onClick={onclick} className="captured_button">
+            <button
+              onClick={() => {
+                onClickOfCaptured(pokemonDataForCapturingList);
+                setShowModal(false);
+              }}
+              className="captured_button"
+            >
               captured
             </button>
             <button
