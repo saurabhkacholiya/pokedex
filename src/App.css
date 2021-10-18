@@ -26,6 +26,9 @@
   transform: translateY(4px);
 }
 
+.card {
+}
+
 .view_details_button {
   display: inline-block;
   padding: 5px 10px;
@@ -138,6 +141,23 @@
   flex-wrap: wrap;
   margin-bottom: 30px;
 }
+
+.modal-img {
+  height: 200px;
+  width: 200px;
+}
+
+.card {
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+  cursor: pointer;
+}
+
+.card_span {
+  font-weight: bold;
+}
+
 /* main container end */
 
 /* Nav bar start*/

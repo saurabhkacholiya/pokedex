@@ -10,11 +10,13 @@
 .modal-main {
   position: fixed;
   background: white;
-  width: 80%;
-  height: auto;
+  width: 50%;
+  height: 65%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+  border-radius: 20px;
 }
 
 .display-block {
@@ -23,4 +25,10 @@
 
 .display-none {
   display: none;
+}
+
+.item-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

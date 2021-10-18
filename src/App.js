@@ -5,8 +5,9 @@ import logoIcon from "./assets/logo.png";
 import Modal from "./Components/Modal";
 import "./App.css";
 
-function PokemonCard({ name, url, captured, onclick }) {
+function PokemonCard({ name, url, captured, onclick, onClickViewMoreDetails }) {
   const [pokeImg, setPokeImage] = useState([]);
+  const [currentPokemonData, setCurrentPokemonData] = useState([]);
 
   useEffect(() => {
     const splitData = url.split("/");
@@ -14,13 +15,19 @@ function PokemonCard({ name, url, captured, onclick }) {
     axios
       .get(`https://pokeapi.co/api/v2/pokemon/${id}`)
       .then((res) => {
-        if (res.data && res.data.sprites)
+        if (res.data && res.data.sprites) {
           setPokeImage(res.data.sprites.front_shiny);
+          setCurrentPokemonData(res.data);
+        }
       })
       .catch((err) => {
         console.log("error in pokemon card", err);
       });
   }, [url]);
+
+  function handleViewMoreDetails() {
+    onClickViewMoreDetails(currentPokemonData);
+  }
 
   return (
     <div
@@ -34,17 +41,19 @@ function PokemonCard({ name, url, captured, onclick }) {
         <>
           {!captured && (
             <button onClick={onclick} className="captured_button">
-              captured?
+              captured
             </button>
           )}
         </>
-        <button onClick={onclick} className="view_details_button">
+        <button onClick={handleViewMoreDetails} className="view_details_button">
           View details
         </button>
       </div>
     </div>
   );
 }
+
+// open
 
 function App() {
   const [pokemonData, setPokemonData] = useState([]);
@@ -53,6 +62,7 @@ function App() {
   const [capturedPokemonObj, setCapturedPokemonObj] = useState({});
   const [filteredValue, setFilteredValue] = useState("All");
   const [showModal, setShowModal] = useState(false);
+  const [selectedPokemonData, setSelectedPokemonData] = useState({});
 
   useEffect(() => {
     axios
@@ -128,6 +138,11 @@ function App() {
     setFilteredValue(filterSelectedValue);
   }
 
+  function onClickViewMoreDetails(data) {
+    setSelectedPokemonData(data);
+    setShowModal(true);
+  }
+
   return (
     <main>
       <nav className="nav_bar">
@@ -165,18 +180,77 @@ function App() {
             url={item.url}
             onclick={() => onClickOfCaptured(item)}
             captured={capturedPokemonObj[`${item.name}`]}
+            onClickViewMoreDetails={onClickViewMoreDetails}
           />
         ))}
       </div>
 
-      <main>
-        <button type="button" onClick={() => setShowModal(true)}>
-          Open
-        </button>
-      </main>
+      <Modal show={showModal}>
+        <div>
+          {selectedPokemonData.sprites &&
+            selectedPokemonData.sprites.front_default && (
+              <div className="item-center">
+                <img
+                  alt="pokemon"
+                  src={selectedPokemonData.sprites.front_default}
+                  className="modal-img"
+                />
+                <img
+                  alt="pokemon"
+                  src={selectedPokemonData.sprites.back_default}
+                  className="modal-img"
+                />
+              </div>
+            )}
+          <p className="item-center">
+            <span className="card">
+              Weight is{" "}
+              <span className="card_span">{` ${selectedPokemonData.weight}`}</span>
+            </span>
+          </p>
+          <p className="item-center">
+            <span className="card">
+              Name is{" "}
+              <span className="card_span">
+                {" "}
+                {` ${selectedPokemonData.name}`}{" "}
+              </span>
+            </span>
+          </p>
+          <p className="item-center">
+            <span className="card">
+              Height is{" "}
+              <span className="card_span">{selectedPokemonData.height}</span>
+            </span>
+          </p>
+          <p className="item-center">
+            <span className="card">
+              Base experience is{" "}
+              <span className="card_span">
+                {" "}
+                {` ${selectedPokemonData.base_experience}`}{" "}
+              </span>
+            </span>
+          </p>
+          <p className="item-center">
+            <span className="card">
+              ID is{" "}
+              <span className="card_span">{` ${selectedPokemonData.id}`}</span>
+            </span>
+          </p>
 
-      <Modal show={showModal} handleClose={() => setShowModal(false)}>
-        <p>Modal</p>
+          <div className="item-center">
+            <button onClick={onclick} className="captured_button">
+              captured
+            </button>
+            <button
+              onClick={() => setShowModal(false)}
+              className="view_details_button"
+            >
+              close
+            </button>
+          </div>
+        </div>
       </Modal>
     </main>
   );
