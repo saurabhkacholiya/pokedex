@@ -42,6 +42,7 @@ function App() {
   const [masterData, setMasterData] = useState([]);
   const [capturedPokemonData, setCapturedPokemonData] = useState([]);
   const [capturedPokemonObj, setCapturedPokemonObj] = useState({});
+  const [filteredValue, setFilteredValue] = useState("All");
 
   useEffect(() => {
     axios
@@ -57,21 +58,35 @@ function App() {
       });
   }, []);
 
-  function onChangeListener(event) {
-    const text = event.target.value;
+  function searchBarListener(text, data) {
     if (text) {
-      const newData = masterData.filter(function (item) {
+      const newData = data.filter(function (item) {
         const itemData = item.name ? item.name.toUpperCase() : "".toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
       setPokemonData(newData);
     } else {
-      setPokemonData(masterData);
+      setPokemonData(data);
     }
   }
 
-  function onClickOfCaptured(item, index) {
+  function onChangeListener(event) {
+    const text = event.target.value;
+
+    if (filteredValue === "All") {
+      searchBarListener(text, masterData);
+    } else if (filteredValue === "Captured") {
+      searchBarListener(text, capturedPokemonData);
+    } else {
+      const filterData = masterData.filter((item) => {
+        return !capturedPokemonObj[item.name];
+      });
+      searchBarListener(text, filterData);
+    }
+  }
+
+  function onClickOfCaptured(item) {
     const updatedCapturedPokemonData = [...capturedPokemonData];
     updatedCapturedPokemonData.push(item);
     setCapturedPokemonData(updatedCapturedPokemonData); // pushing into array for filtered view
@@ -86,17 +101,47 @@ function App() {
     setCapturedPokemonObj(updatedPokemonObj);
   }
 
+  function handleChange(event) {
+    const filterSelectedValue = event.target.value;
+
+    if (filterSelectedValue === "All") {
+      setPokemonData(masterData);
+    } else if (filterSelectedValue === "Captured") {
+      setPokemonData(capturedPokemonData);
+    } else {
+      const filteredData = masterData.filter((item) => {
+        return !capturedPokemonObj[item.name];
+      });
+      setPokemonData(filteredData);
+    }
+
+    setFilteredValue(filterSelectedValue);
+  }
+
   return (
     <div>
       <div className="item-center">
-        <div className="input_search_div">
-          <img alt="search icon" className="search_img" src={searchIcon} />
-          <input
-            type="text"
-            className="input_search"
-            placeholder="Search.."
-            onChange={onChangeListener}
-          ></input>
+        <div className="filter_section">
+          <div className="input_search_div">
+            <img alt="search icon" className="search_img" src={searchIcon} />
+            <input
+              type="text"
+              className="input_search"
+              placeholder="Search.."
+              onChange={onChangeListener}
+            ></input>
+          </div>
+          <div>
+            <select
+              className="filter_dropdown"
+              defaultValue={filteredValue}
+              onChange={handleChange}
+            >
+              <option value="All">All</option>
+              <option value="Captured">Captured</option>
+              <option value="Not Captured">Not Captured</option>
+            </select>
+          </div>
         </div>
       </div>
       <div className="main_container">
@@ -105,7 +150,7 @@ function App() {
             key={`${item.name}_${index}`}
             name={item.name}
             url={item.url}
-            onclick={() => onClickOfCaptured(item, index)}
+            onclick={() => onClickOfCaptured(item)}
             captured={capturedPokemonObj[`${item.name}`]}
           />
         ))}
